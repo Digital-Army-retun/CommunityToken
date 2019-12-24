@@ -67,17 +67,8 @@ contract communityToken is ERC20Interface, Owned, SafeMath {
     mapping(address => uint) balances;
     mapping(address => mapping(address => uint)) allowed;
 
-    // Constructor
-    function communityToken() public {
-        address _ethFundDeposit,
-        address _batFundDeposit,
-        
-        // these were just template codes
-        /*bonusEnds = now + 1 weeks;
-        endDate = now + 7 weeks;*/
-    }
-
-        /* Total supply
+    
+        /* Total supply; these function become unnecesary after line 101s codes
         function totalSupply() public constant returns (uint) {
         return _totalSupply  - balances[address(0)]; */
         
@@ -90,6 +81,28 @@ contract communityToken is ERC20Interface, Owned, SafeMath {
     uint256 public constant tokenCreationCap =  1500 * (10**6) * 10**decimals;
     uint256 public constant tokenCreationMin =  675 * (10**6) * 10**decimals;
     }
+    
+    // Constructor
+    function communityToken(address _ethFundDeposit,
+        address _batFundDeposit,
+        uint256 _fundingStartBlock,
+        uint256 _fundingEndBlock) {
+        
+        
+        // these were just template codes
+        /*bonusEnds = now + 1 weeks;
+        endDate = now + 7 weeks;*/
+        
+      isFinalized = false;                   //controls pre through crowdsale state
+      ethFundDeposit = _ethFundDeposit;
+      CommunityFundDeposit = _CommunityFundDeposit;
+      fundingStartBlock = _fundingStartBlock;
+      fundingEndBlock = _fundingEndBlock;
+      totalSupply = CommunityFund;
+      balances[CommunityFundDeposit] = CommunityFund;    // Deposit Community Intl share
+      CreateBAT(CommunityFundDeposit, CommunityFund);  // logs Community Intl fund
+    }
+
 
 
     // ------------------------------------------------------------------------

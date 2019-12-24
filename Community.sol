@@ -85,8 +85,8 @@ contract communityToken is ERC20Interface, Owned, SafeMath {
     bool public isFinalized;              // switched to true in operational state
     uint256 public fundingStartBlock;
     uint256 public fundingEndBlock;
-    uint256 public constant batFund = 500 * (10**6) * 10**decimals;   // 500m BAT reserved for Brave Intl use
-    uint256 public constant tokenExchangeRate = 6400; // 6400 BAT tokens per 1 ETH
+    uint256 public constant CommunityFund = 500 * (10**6) * 10**decimals;   // 500m CMT reserved for Community Intl use
+    uint256 public constant tokenExchangeRate = 6400; // 6400 Community tokens per 1 ETH
     uint256 public constant tokenCreationCap =  1500 * (10**6) * 10**decimals;
     uint256 public constant tokenCreationMin =  675 * (10**6) * 10**decimals;
     }

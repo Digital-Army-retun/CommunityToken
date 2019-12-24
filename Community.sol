@@ -6,22 +6,6 @@ pragma solidity ^0.4.18;
 import "./SafeMath.sol";
 import "./ERC20Interface.sol";
 
-// ----------------------------------------------------------------------------
-// 'community' CROWDSALE token contract
-//
-// Deployed to : 0x1755711268a9f07f46369714BBb7C4d7Ea14231d
-// Symbol      : CMT
-// Name        :Community Token
-// Total supply: Gazillion
-// Decimals    : 18
-//
-// Enjoy.
-//
-// (c) by Moritz Neto & Daniel Bar with BokkyPooBah / Bok Consulting Pty Ltd Au 2017. The MIT Licence.
-// ----------------------------------------------------------------------------
-
-
-
 
 // ----------------------------------------------------------------------------
 // Contract function to receive approval and execute function in one call

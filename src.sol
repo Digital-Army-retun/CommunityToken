@@ -82,36 +82,43 @@ contract Owned {
 // token transfers
 // ----------------------------------------------------------------------------
 contract communityToken is ERC20Interface, Owned, SafeMath {
-    string public symbol;
-    string public  name;
-    uint8 public decimals;
-    uint public _totalSupply;
+    //metadata
+    string public constant name = "Community Token";
+    string public constant symbol = "CMT";
+    uint256 public constant decimals = 18;
+    string public version = "1.0";
+    
+    //these were just template codes 
+    /*uint public _totalSupply;
     uint public startDate;
     uint public bonusEnds;
-    uint public endDate;
+    uint public endDate; */
 
     mapping(address => uint) balances;
     mapping(address => mapping(address => uint)) allowed;
 
-
-    // ------------------------------------------------------------------------
     // Constructor
-    // ------------------------------------------------------------------------
     function communityToken() public {
-        symbol = "CMT";
-        name = "community Token";
-        decimals = 18;
-        bonusEnds = now + 1 weeks;
-        endDate = now + 7 weeks;
-
+        address _ethFundDeposit,
+        address _batFundDeposit,
+        
+        // these were just template codes
+        /*bonusEnds = now + 1 weeks;
+        endDate = now + 7 weeks;*/
     }
 
-
-    // ------------------------------------------------------------------------
-    // Total supply
-    // ------------------------------------------------------------------------
-    function totalSupply() public constant returns (uint) {
-        return _totalSupply  - balances[address(0)];
+        /* Total supply
+        function totalSupply() public constant returns (uint) {
+        return _totalSupply  - balances[address(0)]; */
+        
+         // crowdsale parameters
+    bool public isFinalized;              // switched to true in operational state
+    uint256 public fundingStartBlock;
+    uint256 public fundingEndBlock;
+    uint256 public constant batFund = 500 * (10**6) * 10**decimals;   // 500m BAT reserved for Brave Intl use
+    uint256 public constant tokenExchangeRate = 6400; // 6400 BAT tokens per 1 ETH
+    uint256 public constant tokenCreationCap =  1500 * (10**6) * 10**decimals;
+    uint256 public constant tokenCreationMin =  675 * (10**6) * 10**decimals;
     }
 
 
@@ -168,6 +175,7 @@ contract communityToken is ERC20Interface, Owned, SafeMath {
         return true;
     }
 
+    
 
     // ------------------------------------------------------------------------
     // Returns the amount of tokens approved by the owner that can be

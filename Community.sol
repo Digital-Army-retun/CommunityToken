@@ -64,10 +64,11 @@ contract communityToken is ERC20Interface, Owned, SafeMath {
     uint public bonusEnds;
     uint public endDate; */
 
-    mapping(address => uint) balances;
-    mapping(address => mapping(address => uint)) allowed;
-
+    //contracts
+    address public ethFundDeposit;
+    address public batFundDeposit;
     
+  
         /* Total supply; these function become unnecesary after line 101s codes
         function totalSupply() public constant returns (uint) {
         return _totalSupply  - balances[address(0)]; */
@@ -82,25 +83,24 @@ contract communityToken is ERC20Interface, Owned, SafeMath {
     uint256 public constant tokenCreationMin =  675 * (10**6) * 10**decimals;
     }
     
+     // events
+    event LogRefund(address indexed _to, uint256 _value);
+    event CreateBAT(address indexed _to, uint256 _value);
+    
     // Constructor
     function communityToken(address _ethFundDeposit,
         address _batFundDeposit,
         uint256 _fundingStartBlock,
-        uint256 _fundingEndBlock) {
-        
-        
-        // these were just template codes
-        /*bonusEnds = now + 1 weeks;
-        endDate = now + 7 weeks;*/
-        
-      isFinalized = false;                   //controls pre through crowdsale state
-      ethFundDeposit = _ethFundDeposit;
-      CommunityFundDeposit = _CommunityFundDeposit;
-      fundingStartBlock = _fundingStartBlock;
-      fundingEndBlock = _fundingEndBlock;
-      totalSupply = CommunityFund;
-      balances[CommunityFundDeposit] = CommunityFund;    // Deposit Community Intl share
-      CreateBAT(CommunityFundDeposit, CommunityFund);  // logs Community Intl fund
+        uint256 _fundingEndBlock) {        
+      
+          isFinalized = false;                   //controls pre through crowdsale state
+          ethFundDeposit = _ethFundDeposit;
+          CommunityFundDeposit = _CommunityFundDeposit;
+          fundingStartBlock = _fundingStartBlock;
+          fundingEndBlock = _fundingEndBlock;
+          totalSupply = CommunityFund;
+          balances[CommunityFundDeposit] = CommunityFund;    // Deposit Community Intl share
+          CreateBAT(CommunityFundDeposit, CommunityFund);  // logs Community Intl fund
     }
 
 
@@ -158,52 +158,5 @@ contract communityToken is ERC20Interface, Owned, SafeMath {
         return true;
     }
 
-    
-
-    // ------------------------------------------------------------------------
-    // Returns the amount of tokens approved by the owner that can be
-    // transferred to the spender's account
-    // ------------------------------------------------------------------------
-    function allowance(address tokenOwner, address spender) public constant returns (uint remaining) {
-        return allowed[tokenOwner][spender];
-    }
-
-
-    // ------------------------------------------------------------------------
-    // Token owner can approve for `spender` to transferFrom(...) `tokens`
-    // from the token owner's account. The `spender` contract function
-    // `receiveApproval(...)` is then executed
-    // ------------------------------------------------------------------------
-    function approveAndCall(address spender, uint tokens, bytes data) public returns (bool success) {
-        allowed[msg.sender][spender] = tokens;
-        Approval(msg.sender, spender, tokens);
-        ApproveAndCallFallBack(spender).receiveApproval(msg.sender, tokens, this, data);
-        return true;
-    }
-
-    // ------------------------------------------------------------------------
-    // 1,000 CMT Tokens per 1 ETH
-    // ------------------------------------------------------------------------
-    function () public payable {
-        require(now >= startDate && now <= endDate);
-        uint tokens;
-        if (now <= bonusEnds) {
-            tokens = msg.value * 1200;
-        } else {
-            tokens = msg.value * 1000;
-        }
-        balances[msg.sender] = safeAdd(balances[msg.sender], tokens);
-        _totalSupply = safeAdd(_totalSupply, tokens);
-        Transfer(address(0), msg.sender, tokens);
-        owner.transfer(msg.value);
-    }
-
-
-
-    // ------------------------------------------------------------------------
-    // Owner can transfer out any accidentally sent ERC20 tokens
-    // ------------------------------------------------------------------------
-    function transferAnyERC20Token(address tokenAddress, uint tokens) public onlyOwner returns (bool success) {
-        return ERC20Interface(tokenAddress).transfer(owner, tokens);
-    }
+  
 }

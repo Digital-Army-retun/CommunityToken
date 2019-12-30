@@ -7,37 +7,42 @@ import "./SafeMath.sol";
 import "./ERC20Interface.sol";
 
 
-// ----------------------------------------------------------------------------
+
 // Contract function to receive approval and execute function in one call
-//
-// Borrowed from MiniMeToken
-// ----------------------------------------------------------------------------
+// Borrowed from MiniMeToken ' this is al obsolete now
 contract ApproveAndCallFallBack {
     function receiveApproval(address from, uint256 tokens, address token, bytes data) public;
 }
 
 
-// ----------------------------------------------------------------------------
+
 // Owned contract
-// ----------------------------------------------------------------------------
 contract Owned {
     address public owner;
     address public newOwner;
 
     event OwnershipTransferred(address indexed _from, address indexed _to);
 
-    function Owned() public {
+   //when you deploy the contract, msg.sender is the owner of the contract.
+   // to put more generally, A contract's msg.sender is the address currently interacting with the contract
+   // be it a human or another contract. The owner of a contract is the address that deployed the contract 
+   // to the blockchain, that is, the first msg.sender to interact with the contract.
+   function Owned() public {
         owner = msg.sender;
     }
 
+    // modifier makes sure that the rest of body of function is executed only after the requirements in modifier are met.
     modifier onlyOwner {
         require(msg.sender == owner);
         _;
     }
 
+    //below can be called fallback fn in context that Solidity fallback function does not have any arguments,
+    //has external visibility and does not return anything.
     function transferOwnership(address _newOwner) public onlyOwner {
         newOwner = _newOwner;
     }
+    
     function acceptOwnership() public {
         require(msg.sender == newOwner);
         OwnershipTransferred(owner, newOwner);
